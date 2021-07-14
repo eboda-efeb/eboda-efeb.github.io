@@ -39,7 +39,7 @@ For copyright reasons only published with "lorem ipsum"-like dummy data!
 import { loadImageData } from './image_data.js';
 import { loadUITextsForLanguage } from './ui_data.js';
 
-const sGalleryImagesPath = '/gallery_images/';
+const sGalleryImagesPath = './gallery_images/';
 
 const sDefaultUILanguage = 'de';
 
@@ -68,7 +68,7 @@ var loadDataStartIndex = 0;
 var aCurrentlyLoadedRecordRange = { start: -1, end: -1 };
 
 function setUIElementsForLanguage(langID) {
-    // set language dependentvattributes
+    // set language dependent attributes
     // (like alt and title on the navigation arrows)
     // where a CSS solution is not possible
     const aUITexts = loadUITextsForLanguage(langID);
