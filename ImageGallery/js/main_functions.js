@@ -39,7 +39,7 @@ For copyright reasons only published with "lorem ipsum"-like dummy data!
 import { loadImageData } from './image_data.js';
 import { loadUITextsForLanguage } from './ui_data.js';
 
-const sGalleryImagesPath = './ImageGallery/gallery_images/';
+const sGalleryImagesPath = './gallery_images/';
 
 const sDefaultUILanguage = 'de';
 
