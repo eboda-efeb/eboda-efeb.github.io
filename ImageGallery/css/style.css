@@ -1,0 +1,444 @@
+/* A (not really scalable and somewhat error prune) solution 
+  to change the texts of the user interface according to the current page language
+*/
+html[lang='en'] h1[lang]:not([lang='en']), html[lang='en'] h2[lang]:not([lang='en'])  {
+    display: none;
+}
+html[lang='de'] h1[lang]:not([lang='de']), html[lang='de'] h2[lang]:not([lang='de']) {
+    display: none;
+}
+html[lang='hu'] h1[lang]:not([lang='hu']), html[lang='hu'] h2[lang]:not([lang='hu']) {
+    display: none;
+}
+
+html[lang='en'] span[lang]:not([lang='en']) {
+    display: none;
+}
+html[lang='de'] span[lang]:not([lang='de']) {
+    display: none;
+}
+html[lang='hu'] span[lang]:not([lang='hu']) {
+    display: none;
+}
+
+/* Styling */
+
+body {
+    /*font-family: fantasy;*/
+    font-family: 'Noto Sans', sans-serif;
+    color: darkslategrey;
+    background: linear-gradient(to left, darkslateblue, white, darkslateblue); /* fixed;*/
+}
+
+h1, h2, h3 {
+    font-family: 'Concert One', cursive;
+}
+
+.container {
+    width: 960px;
+    min-width: 800px;
+    margin: auto;
+    padding: 10px 0px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#image {
+    z-index: -1;
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 90%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+
+    background-color: slateblue;
+    color: white;
+}
+
+img#displayImage {
+    margin: 0;
+
+     object-fit: contain;
+    
+    width: 100%;
+    height: 100%;
+}
+
+#imageContainer {
+    width: 100%;
+    height: 400px;
+
+    margin: 0 0 15px 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    background-color: darkslateblue;
+    border: 1px solid slateblue;
+    border-radius: 10px;
+    z-index: 0;
+}
+
+.navArrowColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#imageContainer .navArrowColumn {
+    min-width: 100px;
+    width: 100px;
+    height: 100%;
+}
+
+#thumbnailsContainer .navArrowColumn {
+    min-width: 64px;
+    width: 64px;
+    height: 64px;
+}
+
+#imageDescriptiveData {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 120px;
+
+    background-color: black; /* darkslateblue; */
+    opacity: 0.75;
+
+    overflow: auto;
+    text-overflow: ellipsis;
+    padding: 0 5px; /*0 5px;*/
+
+    box-sizing: border-box;
+    margin: 0;
+}
+
+#imageTitle {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    color: white;
+
+    /* max-height: 32px; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;  /* works only if overflow: hidden;white-space: nowrap; are set! */
+}
+
+#imageTitle h2 {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#imageDescription {
+    padding: 0;
+    margin: 0;
+
+    color: white;
+    font-size: 14px;
+}
+
+#imageDescription p {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 3px;
+}
+
+header {
+    width: 960px;
+    min-width: 800px;
+    height: 48px;
+    padding: 0 5px;
+    margin: 0 auto;
+
+    background-color: darkslateblue;
+    border: 1px solid slateblue;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+header h1 {
+    color: white;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+header label {
+    font-size: 14px;
+    
+    color: white;
+}
+
+select {
+    padding: 0 5px;
+}
+
+header select:focus-visible {
+    outline-color: slateblue;
+}
+
+header select, header option {
+    color: darkslateblue;
+}
+
+footer {
+    height: 80px;
+    width: 100%;
+    min-width: 100%;
+
+    margin: 0;
+
+    display: flex;
+}
+
+#notesOnRelease .info {
+    display: none;
+}
+
+#notesOnRelease:hover .info {
+    display: block;
+}
+
+#copyright {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+}
+
+.popupNotes {
+    width: 48px;
+    height: 48px;
+    color: white;
+    font-size: 28px;
+    border-radius: 24px;
+    border: 2px solid white;
+    background-color: slateblue;
+
+    box-sizing: border-box;
+
+    text-align: center;
+    vertical-align: center;
+
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+}
+
+.info {
+    padding: 0 5px;
+    border: 2px solid white;
+    overflow: auto;
+
+    position: fixed;
+    bottom: 36px;
+    right: 36px;
+
+    width: 500px;
+    height: 500px;
+
+    background-color: darkslateblue;
+    color: white;
+    border-radius: 10px;
+}
+
+.info h1 {
+    margin-top: 0px;
+}
+
+.info h2 {
+    margin: 0px;
+    font-weight: normal;
+}
+
+/* Navigation/thumbnails */
+#thumbnailsContainer {
+    margin: auto;
+    min-width: 400px;
+    max-width: 100%;
+
+    min-height: 180px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius: 10px;
+
+    position: relative;
+}
+
+
+#thumbnailsBrowser {
+    min-height: 200px;
+    /*align-items: center;*/
+
+    display: flex;
+    flex-direction: row;
+
+    overflow: auto; /* hidden; */
+    scroll-behavior: smooth;
+}
+
+.thumbnailItem {
+    min-width: 112px;
+    min-height: 112px;
+
+    max-width: 144px;
+    max-height: 164px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* position: relative; */
+
+    color: white;
+}
+
+#thumbnailsBrowser .thumbnailItem:hover {
+    box-shadow: 0px 0px 10px 2px darkslategrey;
+}
+
+#thumbnailsBrowser .thumbnailItem img.thumbnailImage {
+    width: 96px;
+    height: 96px;
+
+    min-width: 96px;
+    min-height: 96px;
+    max-width: 96px;
+    max-height: 96px;
+
+    object-fit: contain;
+
+    border: 1px solid slategrey;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    box-sizing: border-box;
+
+    background-color:slateblue;
+    border-radius: 5px;
+}
+
+#thumbnailsBrowser .thumbnailItem img.thumbnailImage:hover {
+    width: 110px;
+    height: 110px;
+    max-width: 110px;
+    max-height: 110px;
+}
+
+#thumbnailsBrowser .thumbnailItem img.thumbnailImage.activated {
+    width: 115px;
+    height: 115px;
+    max-width: 115px;
+    max-height: 115px;
+
+    border: 5px solid darkslateblue;
+}
+
+.tooltipText {
+    display: none;
+    /*display: block;*/
+    background-color: slateblue;
+    border: 1px solid slategrey;
+    color: white;
+
+    /* position: relative; */
+    text-align: left;
+  
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
+#thumbnailsBrowser .thumbnailItem .tooltipText {
+    min-width: 100px;
+    width: 96px;
+    min-height: 20px;
+    max-height: 40px;
+
+    position: relative;
+    top: -5px;
+    max-width: 144px;
+    margin-bottom: 5px;
+
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+}
+
+#thumbnailsBrowser .thumbnailItem:hover .tooltipText {
+    display: block;
+}
+
+.navArrow {
+    width: 64px;
+    height: 64px;
+
+    filter: brightness(0) invert(1);/* change array's color to white*/
+}
+
+.navArrow:hover {
+    /* to be replaced for another effect */
+    width: 96px;
+    height: 96px;
+}
+
+img.nextArrow {
+    transform: scaleX(-1);  /* mirror the arrow image */
+}
+
+/* #imageContainer .navArrow {
+    filter: brightness(0) invert(1);
+} */
+
+#thumbnailsContainer .navArrow {
+    width: 48px;
+    height: 48px;
+
+    position: absolute;
+}
+
+#thumbnailsContainer .navArrow.nextArrow {
+    right: 0;
+}
+
+#thumbnailsContainer .navArrow.previousArrow {
+    left: 0;
+}
+
+#thumbnailsContainer .navArrow:hover {
+    /* to be replaced for another effect */
+    width: 64px;
+    height: 64px;
+}

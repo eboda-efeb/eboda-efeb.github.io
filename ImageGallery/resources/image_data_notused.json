@@ -1,0 +1,13 @@
+[
+    {
+    src: "alma.jpg",
+    title: "Alma",
+    description: "Az almafa termése. Az egyes fajták érési ideje eltérö lehet.\nVannak nyári, öszi és téli fajták."
+},
+
+{
+    src: "korte.jpg", 
+    title: "Körte", 
+    description: "A körtefa termése. Az egyes fajták érési ideje eltérö lehet.\nVannak nyári, öszi és téli fajták. Rosszabbul tárolható, mint az alma."
+}
+]

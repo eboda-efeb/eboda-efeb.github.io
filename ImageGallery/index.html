@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- external fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&family=Noto+Sans&display=swap" rel="stylesheet">
+
+    <!-- local styles  -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!-- load text content for language selected by the user dynamically -->
+    <title>Image Gallery</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 lang="en">Image Gallery</h1>
+            <h1 lang="de">Bildergalerie</h1>
+            <h1 lang="hu">Képgaléria</h1>
+        </div>
+        <aside>
+            <label for="languageSelector">
+                <span lang="en">Select language:</span>
+                <span lang="de">Wählen Sie die Sprache:</span>
+                <span lang="hu">Válasszon nyelvet:</span>
+            </label>
+            <select name="languageSelector" id="languageSelector">
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="hu">Magyar</option>
+            </select>
+        </aside>
+    </header>
+    <main class="container">
+        <section id="imageContainer">
+            <nav class="navArrowColumn">
+                <img src="./resources/arrow.svg" alt="previous" title="previous" class="navArrow previousArrow"
+                    id="shiftImageSelectionToPrevious" />
+            </nav>
+            <div id="image">
+                <!-- load image selected by the user dynamically -->
+                <img src="" alt="[No image selected]" id="displayImage" title="" />
+
+                <div id="imageDescriptiveData">
+                    <!-- load descriptive data dynamically for the image selected by the user  -->
+                    <div class="descriptionTitle">
+                        <h2 id="imageTitle">[Title for selected image]</h2>
+                    </div>
+                    <div id="imageDescription" class="descriptionTexts">
+                        <p>[Description for selected image]</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="navArrowColumn">
+                <img src="./resources/arrow.svg" alt="next" title="next" class="navArrow nextArrow"
+                    id="shiftImageSelectionToNext" />
+            </nav>
+        </section>
+        <section id="thumbnailsContainer">
+            <nav class="navArrowColumn">
+                <img src="./resources/arrow.svg" alt="previous" title="previous" class="navArrow previousArrow" />
+            </nav>
+            <div id="thumbnailsBrowser">
+                <!--  <div class="thumbnailItem">
+                    < !-- add thumbnails and tooltip dynamically -- >
+                     <span class="tooltipText">[Tooltip for currently hovered thumbnail]</span>
+                    <img src="" alt="[No image in the gallery]" class="thumbnailImage" data-number=""/>
+                    
+                </div>
+            -->
+            </div>
+            <nav class="navArrowColumn">
+                <img src="./resources/arrow.svg" alt="next" title="next" class="navArrow nextArrow" />
+            </nav>
+        </section>
+    </main>
+    <footer>
+        <div id="copyright">Copyright (c) 2021 by Eszter Boda</div>
+        <div id="notesOnRelease">
+            <div class="popupNotes">?</div>
+            <div class="info">
+                <span lang="en">
+                    <h1>Image Gallery</h1>
+                    <h2>Author: Eszter Boda</h2>
+                    <h2>Copyright (c) by Eszter Boda, 2021</h2>
+
+                    <h3>Implemented functionalities:</h3>
+                    <ul>
+                        <li>Load image data from a(n emulated) database
+                            <p>Note: Even loading from local json file is not allowed in JS due to security reasons.
+                                files only can be loaded either by user interaction or from a GET call's response on a
+                                web
+                                server</p>
+                        </li>
+                        <li>Display thumbnails</li>
+                        <li>Change thumbnail's look if
+                            <ol>
+                                <li>hovered (including to show a tooltip)
+                                    <P>Note: the tooltip could be very likely shown also by just styling/positioning
+                                        the "title" attribute of the image</P>
+                                </li>
+                                <li>selected</li>
+                            </ol>
+                        </li>
+                        <li>Display image and descriptive data to selected thumbnail</li>
+                        <li>Enable shifting the selection (circular: first after last and last before first)</li>
+                        <li>Multi-language support:
+                            <ol>
+                                <li>Over CSS (+ work around for tooltip)</li>
+                                <li>Over loaded UI text resources</li>
+                            </ol>
+                        </li>
+                        <li>Automatic scrolling if the selected thumbnail moves off the visible part</li>
+                    </ul>
+                    <h3>Planned improvements:</h3>
+                    <ul>
+                        <li>Much more error handling</li>
+                        <li>More efficient data structure (looping) to set language specific data</li>
+                        <li>Enable category selection (filter/specify loaded data)</li>
+                        <li>Enable "paging" of loaded image data (i.e. load only a specific number of images
+                            and load a new range on demand, when the user tries to navigate)</li>
+                        <li>Create a real slide show (carousel) having the currently selected thumbnail always in the
+                            middle and put the last images circularly to its left</li>
+                        <li>Skins</li>
+                        <li>Save user preferences (language, skin, category ...)</li>
+                    </ul>
+                    <h3>Note:</h3>
+                    <p>For copyright reasons only published with "lorem ipsum"-like dummy data!
+                        Copyright for all images in the gallery is owned by the author of this webpage.</p>
+                </span>
+
+                <span lang="hu">
+                    <h1>Képgaléria</h1>
+                    <h2>Szerző: Boda Eszter</h2>
+                    <h2>Copyright (c): Boda Eszter, 2021</h2>
+
+                    <h3>Megvalósított funkciók:</h3>
+                    <ul>
+                        <li>Képadatok betöltése egy (emulált) adatbázisból
+                            <p>Megjegyzés: Biztonsági okokból a JS-ben helyi json fájlból sem lehet betölteni. Fájlok
+                                csak felhasználói interakcióval, vagy egy webszerverre küldött GET hívás válaszából
+                                tölthetők be</p>
+                        </li>
+                        <li>Indexképek megjelenítése</li>
+                        <li>Indexkép megjelenésének megváltozása, ha
+                            <ol>
+                                <li>az egérmutató felette van (beleértve az eszköztipp bemutatását is)
+                                    <P>Megjegyzés: az eszköztipp hasonló megjelenítése nagy valószínűséggel a kép
+                                        "title" attribútumának stilizálásával / pozícionálásával is lehetséges lenne</P>
+                                </li>
+                                <li>ki van választva</li>
+                            </ol>
+                        </li>
+                        <li>Kép és leíró adatok megjelenítése a kiválasztott indexképhez</li>
+                        <li>Kijelölés áthelyezése a navigációs nyilak használatával (ciklikusan: az első előtt az utolsó
+                            és az utolsót követi az első)</li>
+                        <li>Többnyelvűség támogatása:
+                            <ol>
+                                <li>CSS-en keresztül (+ kerülő megoldás az eszköztipphez)</li>
+                                <li>Szöveges erőforrások használatával a felhasználói felületen</li>
+                            </ol>
+                        </li>
+                        <li>Automatikus görgetés, ha a kijelölés elmozdul a látható részről</li>
+                    </ul>
+                    <h3>Tervezett fejlesztések:</h3>
+                    <ul>
+                        <li>Sokkal több hibakezelés</li>
+                        <li>Hatékonyabb adatstruktúra (ciklusok) a nyelvspecifikus adatok beállításához</li>
+                        <li>Kategória kiválasztásának lehetősége (betöltendő adatok szűrése / meghatározása)</li>
+                        <li>Betöltött képadatok "lapozásának" lehetősége (azaz csak meghatározott számú képet töltsön be
+                            és igény szerint töltsön be egy új képsort, amikor a felhasználó megpróbál navigálni)</li>
+                        <li>Igazi slideshow (carousel) létrehozása, amelynek mindig a közepén áll az éppen kiválasztott
+                            indexkép, és a hátsó képek körkörösen annak bal oldalára kerülnek át</li>
+                        <li>Szkinek (skins, felhasználói felület választható stílusai)</li>
+                        <li>Felhasználói beállítások mentése (nyelv, skin, kategória ...)</li>
+                    </ul>
+                    <h3>Megjegyzés:</h3>
+                    <p>Szerzői jogi okokból csak "lorem ipsum"-szerű ál-adatokkal közzétéve!
+                        A képgalériában felhasznált képek szerzői joga e weboldal szerzőjének tulajdonát képezi.</p>
+                </span>
+
+                <span lang="de">
+                    <h1>Bildergalerie</h1>
+                    <h2>Autorin: Eszter Boda</h2>
+                    <h2>Copyright (c): Eszter Boda, 2021</h2>
+
+                    <h3>Implementierte Funktionalitäten:</h3>
+                    <ul>
+                        <li>Bilddaten aus einer (emulierten) Datenbank laden
+                            <p>Hinweis: Das Laden aus einer lokalen JSON-Datei ist in JS aus Sicherheitsgründen nicht
+                                erlaubt. Dateien können nur entweder durch Benutzerinteraktion oder mithilfe einer
+                                GET-Anforderung von einem Webserver geladen werden</p>
+                        </li>
+                        <li>Miniaturansichten anzeigen</li>
+                        <li>Aussehen der Miniaturansicht ändern, wenn
+                            <ol>
+                                <li>sich der Mauszeiger über ihr befindet (einschließlich Anzeigen eines Tooltips)
+                                    <p>Anmerkung: Der Tooltip könnte sehr wahrscheinlich auch durch einfaches
+                                        Stylen/Positionieren des "Titel"-Attributs des Bildes entsrechend angezeigt
+                                        werden</p>
+                                </li>
+                                <li>sie ausgewählt ist</li>
+                            </ol>
+                        </li>
+                        <li>Bild- und Beschreibungsdaten zur ausgewählten Miniaturansicht anzeigen</li>
+                        <li>Auswahl mittels Navigationspfeile verschieben (zyklisch: das Letze vor dem Ersten und das
+                            Erste nach dem Letzten)</li>
+                        <li>Unterstützung der Mehrsprachigkeit:
+                            <ol>
+                                <li>über CSS (+ Workaround für Tooltip)</li>
+                                <li>mittels Laden von UI-Textressourcen</li>
+                            </ol>
+                        </li>
+                        <li>Automatisches Scrollen, wenn sich die neu ausgewählte Miniaturansicht außerhalb des
+                            sichtbaren Bereiches befindet</li>
+                    </ul>
+                    <h3>Geplante Verbesserungen:</h3>
+                    <ul>
+                        <li>Viel mehr Fehlerbehandlung</li>
+                        <li>Effizientere Datenstruktur (Schleifen), um sprachspezifische Daten hinterzulegen</li>
+                        <li>Kategorieauswahl erlauben (die zu ladenden Daten filtern/angeben)</li>
+                        <li>"Blättern" (paging) von geladenen Bilddaten (d.h. nur eine bestimmte Anzahl von Bildern
+                            laden und bei Bedarf eine neue Bildreihe nachladen, wenn der Benutzer versucht zu
+                            navigieren)</li>
+                        <li>Ein echtes "Karussell" erstellen, mit der aktuell ausgewählten Miniaturansicht immer in der
+                            Mitte bleibend und die hinteren letzten Bilder zyklisch links davon platzieren</li>
+                        <li>Skins</li>
+                        <li>Benutzereinstellungen speichern (Sprache, Skin, Kategorie ...)</li>
+                    </ul>
+                    <h3>Hinweis:</h3>
+                    <p>Aus urheberrechtlichen Gründen nur mit "lorem ipsum"-artigen Pseudo-Daten veröffentlicht. Für
+                        alle in der Bildergalerie verwendeten Bilder verbleibt das Copyright bei der Autorin dieser
+                        Webseite.</p>
+                </span>
+            </div>
+
+        </div>
+    </footer>
+
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script-->
+    <script src="./js/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module" src="./js/main_functions.js"></script>
+</body>
+
+</html>
