@@ -26,8 +26,9 @@ html[lang='hu'] span[lang]:not([lang='hu']) {
 body {
     /*font-family: fantasy;*/
     font-family: 'Noto Sans', sans-serif;
-    color: darkslategrey;
-    background: linear-gradient(to left, darkslateblue, white, darkslateblue); /* fixed;*/
+    color: white;
+    /*background: linear-gradient(to left, midnightblue, white, midnightblue);*/ /* fixed;*/
+    background-color: midnightblue;
 }
 
 h1, h2, h3 {
@@ -62,7 +63,7 @@ h1, h2, h3 {
 
     position: relative;
 
-    background-color: slateblue;
+    background-color: midnightblue; border: 1px solid steelblue;
     color: white;
 }
 
@@ -89,8 +90,8 @@ img#displayImage {
 
     box-sizing: border-box;
 
-    background-color: darkslateblue;
-    border: 1px solid slateblue;
+    background: linear-gradient(to left, midnightblue, white, midnightblue); /* background-color: midnightblue; */
+    border: 1px solid steelblue;
     border-radius: 10px;
     z-index: 0;
 }
@@ -121,7 +122,7 @@ img#displayImage {
     width: 100%;
     height: 120px;
 
-    background-color: black; /* darkslateblue; */
+    background-color: black; /* midnightblue; */
     opacity: 0.75;
 
     overflow: auto;
@@ -170,8 +171,9 @@ header {
     padding: 0 5px;
     margin: 0 auto;
 
-    background-color: darkslateblue;
-    border: 1px solid slateblue;
+    /* background-color: midnightblue; */
+    background: linear-gradient(to left, midnightblue, white, midnightblue);
+    border: 1px solid steelblue;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
@@ -199,11 +201,11 @@ select {
 }
 
 header select:focus-visible {
-    outline-color: slateblue;
+    outline-color: midnightblue;
 }
 
 header select, header option {
-    color: darkslateblue;
+    color: midnightblue;
 }
 
 footer {
@@ -241,7 +243,7 @@ footer {
     font-size: 28px;
     border-radius: 24px;
     border: 2px solid white;
-    background-color: slateblue;
+    background-color: midnightblue;
 
     box-sizing: border-box;
 
@@ -265,7 +267,7 @@ footer {
     width: 500px;
     height: 500px;
 
-    background-color: darkslateblue;
+    background-color: midnightblue;
     color: white;
     border-radius: 10px;
 }
@@ -294,17 +296,22 @@ footer {
     border-radius: 10px;
 
     position: relative;
+
+    /* background-color: midnightblue; */
+    background: linear-gradient(to left, midnightblue, white, midnightblue);
+    border: 1px solid steelblue;
 }
 
 
 #thumbnailsBrowser {
-    min-height: 200px;
+    min-height: 144px;
     /*align-items: center;*/
 
     display: flex;
     flex-direction: row;
 
-    overflow: auto; /* hidden; */
+    /* overflow: auto; */
+    overflow: hidden;
     scroll-behavior: smooth;
 }
 
@@ -326,7 +333,7 @@ footer {
 }
 
 #thumbnailsBrowser .thumbnailItem:hover {
-    box-shadow: 0px 0px 10px 2px darkslategrey;
+    box-shadow: 0px 0px 10px 2px teal;
 }
 
 #thumbnailsBrowser .thumbnailItem img.thumbnailImage {
@@ -347,7 +354,7 @@ footer {
 
     box-sizing: border-box;
 
-    background-color:slateblue;
+    background-color: midnightblue;
     border-radius: 5px;
 }
 
@@ -364,13 +371,14 @@ footer {
     max-width: 115px;
     max-height: 115px;
 
-    border: 5px solid darkslateblue;
+    border: 5px solid white;
+    outline: 5px solid midnightblue; /* steelblue; */
 }
 
 .tooltipText {
     display: none;
     /*display: block;*/
-    background-color: slateblue;
+    background-color: midnightblue;
     border: 1px solid slategrey;
     color: white;
 
@@ -442,3 +450,23 @@ img.nextArrow {
     width: 64px;
     height: 64px;
 }
+
+/* #maxImageCount {
+
+}
+
+#submitMaxImageCount {
+
+} */
+
+#loadSettings {
+    margin-bottom: 5px;
+}
+
+input:focus-visible {
+    outline-color: midnightblue;
+}
+
+input:invalid {
+    background-color:firebrick;
+  }

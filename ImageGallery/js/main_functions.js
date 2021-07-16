@@ -109,9 +109,11 @@ function setUIElementsForLanguage(langID) {
     });
 }
 
-function initData() {
+function initData(maxLoadImgCnt) {
+    maxLoadImgCnt = maxLoadImgCnt || loadDataMaxCount;
+
     // fill data structures, create the thumbnails, select first image
-    /*let*/ aImageData = loadImageData(loadDataStartIndex, loadDataMaxCount);
+    /*let*/ aImageData = loadImageData(loadDataStartIndex, maxLoadImgCnt);
     if (aImageData.length > 0) {
         $(aThumbnailsBrowser).children().remove();
     }
@@ -289,8 +291,7 @@ function onThumbnailActivate(aThumbnail) {
     setImageDescriptiveDataForLanguage(index, langID);
 
     if (true === ensureInsideViewHorizontally(aThumbnailsBrowser, aThumbnail)) {
-        console.log('Container was scrolled to make the selected thumbnail visible. Thumbnail now visible in container: ' +
-            isInsideViewHorizontally(aThumbnailsBrowser, aThumbnail, true));
+        console.log('Container was scrolled to make the selected thumbnail visible.');
     }
 }
 
@@ -339,6 +340,15 @@ function shiftImage(shiftBy) {
     onThumbnailActivate($(aThumbnailsBrowser).children().eq(newIndex).children('.' + sThumbnailImageClass).first());
 }
 
+function scrollThumbnails(scrollByItemCnt) {
+    if (!scrollByItemCnt) {
+        return; // wrong input or nothing to do
+    }
+
+    let scrollBy = $('.thumbnailItem').first().outerWidth();
+    aThumbnailsBrowser.scrollLeft(aThumbnailsBrowser.scrollLeft() + scrollByItemCnt * scrollBy);
+}
+
 function onImageNavArrowClick(aObject) {
     if (!aObject) {
         console.log('onImageNavArrowClick: No navigation arrow was provided: ' + aObject);
@@ -357,6 +367,26 @@ function onImageNavArrowClick(aObject) {
         return;
     }
     shiftImage(shiftBy);
+}
+
+function onThumbnailNavArrowClick(aObject) {
+    if (!aObject) {
+        console.log('onThumbnailNavArrowClick: No navigation arrow was provided: ' + aObject);
+        return;
+    }
+
+    let shiftBy = 0;
+    if ($(aObject).hasClass(sNavArrowPreviousClass)) {
+        shiftBy = -1;
+    }
+    else if ($(aObject).hasClass(sNavArrowNextClass)) {
+        shiftBy = 1;
+    }
+
+    if (shiftBy === 0) {
+        return;
+    }
+    scrollThumbnails(shiftBy);
 }
 
 function onThumbnailClick(aObject) {
@@ -379,17 +409,22 @@ $(document).ready(() => {
     // to set the language first, we would need to reassign the main image's
     // description (which may be language secific) twice 
     initUILanguage(sDefaultUILanguage);
-    initData();
+    initData(loadDataMaxCount);
 
     setImageDescriptiveDataForLanguage(currentDataIndex, sDefaultUILanguage);
+    $('#maxImageCount').val(loadDataMaxCount);
 });
 
 $(aThumbnailsBrowser).on('click', '.' + sThumbnailImageClass, (event) => {
     onThumbnailClick(event.target);
 });
 
-$('.navArrow').click((event) => {
+$('#imageContainer .navArrow').click((event) => {
     onImageNavArrowClick(event.target);
+});
+
+$('#thumbnailsContainer .navArrow').click((event) => {
+    onThumbnailNavArrowClick(event.target);
 });
 
 $(aLanguageSelector).change((event) => {
@@ -400,5 +435,24 @@ $(aLanguageSelector).change((event) => {
     setUIElementsForLanguage(langID);
 
     setImageDescriptiveDataForLanguage(currentDataIndex, langID);
+});
+
+$('#submitMaxImageCount').click(() => {
+    let aMaxImgCntField = $('#maxImageCount');
+    if (aMaxImgCntField[0].validity.valid !== true) {
+        console.log('Invalid input for max. image count to load provided: ' + aMaxImgCntField.val());
+        aMaxImgCntField.focus();
+        aMaxImgCntField.select();
+        return false;
+    }
+
+    // just fo sure an additional check as type and constraints 
+    // may have been changed accidentally in the html page
+    var maxLoadImgCnt = parseInt(aMaxImgCntField.val());
+    if (!isNaN(maxLoadImgCnt) && maxLoadImgCnt > 0) {
+        initData(maxLoadImgCnt);
+
+    }
+    return true;
 });
 

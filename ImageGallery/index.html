@@ -38,6 +38,19 @@
         </aside>
     </header>
     <main class="container">
+        <form id="loadSettings" action="">
+            <label for="maxImageCount">
+                <span lang="en">Max. number of images to load:</span>
+                <span lang="de">Max. Anzahl der zu ladenden Bilder:</span>
+                <span lang="hu">Betöltendő képek max. száma:</span>
+            </label>
+            <input id="maxImageCount" namme="maxImageCount" type="number" min="1" />
+            <button id="submitMaxImageCount" type="button">
+                <span lang="en">Reoad</span>
+                <span lang="de">Neu laden</span>
+                <span lang="hu">Újratöltés</span>
+            </button>
+        </form>
         <section id="imageContainer">
             <nav class="navArrowColumn">
                 <img src="./resources/arrow.svg" alt="previous" title="previous" class="navArrow previousArrow"
