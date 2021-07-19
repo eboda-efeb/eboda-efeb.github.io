@@ -472,8 +472,8 @@ $('#submitMaxImageCount').click(() => {
     var maxLoadImgCnt = parseInt(aMaxImgCntField.val());
     if (!isNaN(maxLoadImgCnt) && maxLoadImgCnt > 0) {
         initData(maxLoadImgCnt);
-
     }
+    enableDisableThumbnailNavArrows();
     return true;
 });
 
