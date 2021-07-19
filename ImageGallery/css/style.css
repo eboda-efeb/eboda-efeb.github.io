@@ -265,7 +265,7 @@ footer {
     right: 36px;
 
     width: 500px;
-    height: 500px;
+    height: 90%;
 
     background-color: midnightblue;
     color: white;
@@ -306,6 +306,7 @@ footer {
 #thumbnailsBrowser {
     min-height: 144px;
     /*align-items: center;*/
+    padding: 0 5px; /* just to work around not exact fractional width values when checking visibility */
 
     display: flex;
     flex-direction: row;
