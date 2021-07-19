@@ -313,6 +313,8 @@ footer {
     /* overflow: auto; */
     overflow: hidden;
     scroll-behavior: smooth;
+
+    position: relative;
 }
 
 .thumbnailItem {
@@ -327,7 +329,7 @@ footer {
     justify-content: center;
     align-items: center;
 
-    /* position: relative; */
+    position: relative;
 
     color: white;
 }
@@ -350,7 +352,6 @@ footer {
     border: 1px solid slategrey;
 
     overflow: hidden;
-    text-overflow: ellipsis;
 
     box-sizing: border-box;
 
@@ -372,7 +373,7 @@ footer {
     max-height: 115px;
 
     border: 5px solid white;
-    outline: 5px solid midnightblue; /* steelblue; */
+    outline: 5px solid midnightblue;
 }
 
 .tooltipText {
@@ -402,7 +403,6 @@ footer {
     margin-bottom: 5px;
 
     overflow: hidden;
-    /* text-overflow: ellipsis; */
 }
 
 #thumbnailsBrowser .thumbnailItem:hover .tooltipText {
@@ -416,10 +416,14 @@ footer {
     filter: brightness(0) invert(1);/* change array's color to white*/
 }
 
-.navArrow:hover {
+.navArrow:not([disabled]):hover {
     /* to be replaced for another effect */
     width: 96px;
     height: 96px;
+}
+
+.navArrow[disabled] {
+    display: none;
 }
 
 img.nextArrow {
@@ -445,19 +449,11 @@ img.nextArrow {
     left: 0;
 }
 
-#thumbnailsContainer .navArrow:hover {
+#thumbnailsContainer .navArrow:not([disabled]):hover {
     /* to be replaced for another effect */
     width: 64px;
     height: 64px;
 }
-
-/* #maxImageCount {
-
-}
-
-#submitMaxImageCount {
-
-} */
 
 #loadSettings {
     margin-bottom: 5px;

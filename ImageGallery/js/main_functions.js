@@ -213,13 +213,13 @@ function setImageDescriptiveDataForLanguage(index, langID) {
 
 function calculateBoundariesForViewCheck(aContainer, aElement, bVertically = false) {
     //Get container properties:
-    // - base sides are the ones that the coordinates are counted from (top and left, respectively)
+    // - base sides are the ones which the coordinates are counted from (top and left, respectively)
     // - other sides  are the ones with the higher coordinates (bottom and right, respectively)
-    let cBaseSide = (bVertically ? aContainer.scrollTop() : aContainer.scrollLeft());
+    let cBaseSide = 0; //(bVertically ? aContainer.scrollTop() : aContainer.scrollLeft());
     let cOtherSide = cBaseSide + (bVertically ? aContainer.innerHeight() : aContainer.innerWidth());
 
     //Get element properties
-    let eBaseSide = (bVertically ? aElement.offset().top : aElement.offset().left);
+    let eBaseSide = (bVertically ? aElement.position().top : aElement.position().left);
     let eOtherSide = eBaseSide + (bVertically ? aElement.outerHeight() : aElement.outerWidth());
 
     return { cBaseSide: cBaseSide, cOtherSide: cOtherSide, eBaseSide: eBaseSide, eOtherSide: eOtherSide };
@@ -241,37 +241,13 @@ function isInsideView(aContainer, aElement, bPartial = true, bVertically = false
     return (isTotal || isPartial);
 }
 
-function ensureInsideView(aContainer, aElement, bVertically) {
-    let aBoundaries = calculateBoundariesForViewCheck(aContainer, aElement, bVertically);
-    //Check if out of view and scroll if not
-    if (aBoundaries.eBaseSide < aBoundaries.cBaseSide) {
-        bVertically ? aContainer.scrollTop(aBoundaries.eBaseSide) : aContainer.scrollLeft(aBoundaries.eBaseSide);
-        return true; // scrolled
-    }
-    else if (aBoundaries.eOtherSide > aBoundaries.cOtherSide) {
-        bVertically
-            ? aContainer.scrollTop(aBoundaries.cOtherSide + aBoundaries.eOtherSide - aBoundaries.cOtherSide)
-            : aContainer.scrollLeft(aBoundaries.cOtherSide + aBoundaries.eOtherSide - aBoundaries.cOtherSide);
-        return true; // scrolled
-    }
-    return false; // not scrolled
-}
-
 // Check if thumbnail is visible inside the (scrollable) container
 function isInsideViewVertically(aContainer, aElement, bPartial) {
     return isInsideView(aContainer, aElement, bPartial, true);
 }
 
-function ensureInsideViewVertically(aContainer, aElement) {
-    return ensureInsideView(aContainer, aElement, true);
-}
-
 function isInsideViewHorizontally(aContainer, aElement, bPartial) {
     return isInsideView(aContainer, aElement, bPartial, false);
-}
-
-function ensureInsideViewHorizontally(aContainer, aElement) {
-    return ensureInsideView(aContainer, aElement, false);
 }
 
 function onThumbnailActivate(aThumbnail) {
@@ -280,7 +256,7 @@ function onThumbnailActivate(aThumbnail) {
     $(aImage).attr('src', $(aThumbnail).attr('src'));
 
     if (!$(aThumbnail).hasClass('activated')) {
-        $(aThumbnail).toggleClass('activated');
+        $(aThumbnail).addClass('activated');
     }
 
     let index = parseInt($(aThumbnail).attr('data-number'));
@@ -290,9 +266,15 @@ function onThumbnailActivate(aThumbnail) {
     const langID = $('html').attr('lang');
     setImageDescriptiveDataForLanguage(index, langID);
 
-    if (true === ensureInsideViewHorizontally(aThumbnailsBrowser, aThumbnail)) {
-        console.log('Container was scrolled to make the selected thumbnail visible.');
-    }
+    // $(aThumbnail) returns a jQuery-Object, at [0] it references the original
+    // HTML element we need to access in order to call the pure JavaScript
+    // scrollIntoView() mehod on it
+    // Scroll smoothly and restore scroll-behaviour afterwards
+    $(aThumbnail)[0].scrollIntoView({
+        behavior: 'smooth'
+    });
+
+    //enableDisableThumbnailNavArrows();
 }
 
 function deactivateThumbnailAtIndex(index) {
@@ -310,7 +292,22 @@ function onThumbnailDeactivate(aThumbnail) {
     }
 }
 
-function calculatedShiftedIndex(shiftBy) {
+function enableDisableElement(aObject, bDisable) {
+    bDisable
+        ? aObject.attr('disabled', 'disabled')
+        : aObject.removeAttr('disabled');
+}
+
+function enableDisableThumbnailNavArrows() {
+    enableDisableElement($('#thumbnailsContainer .navArrow.previousArrow')
+        , (true === isInsideViewHorizontally(aThumbnailsBrowser
+            , aThumbnailsBrowser.children('.' + sThumbnailItemClass).first(), false)));
+    enableDisableElement($('#thumbnailsContainer .navArrow.nextArrow')
+        , (true === isInsideViewHorizontally(aThumbnailsBrowser
+            , aThumbnailsBrowser.children('.' + sThumbnailItemClass).last(), false)));
+}
+
+function calculateShiftedIndex(shiftBy) {
     if (!shiftBy) {
         return 0; // wrong input or nothing to do
     }
@@ -334,7 +331,7 @@ function shiftImage(shiftBy) {
     }
 
     const oldIndex = currentDataIndex; // just to ensure that it won't be changed
-    const newIndex = calculatedShiftedIndex(shiftBy);
+    const newIndex = calculateShiftedIndex(shiftBy);
 
     deactivateThumbnailAtIndex(oldIndex);
     onThumbnailActivate($(aThumbnailsBrowser).children().eq(newIndex).children('.' + sThumbnailImageClass).first());
@@ -347,6 +344,11 @@ function scrollThumbnails(scrollByItemCnt) {
 
     let scrollBy = $('.thumbnailItem').first().outerWidth();
     aThumbnailsBrowser.scrollLeft(aThumbnailsBrowser.scrollLeft() + scrollByItemCnt * scrollBy);
+    // let newLeft = Math.ceil(aThumbnailsBrowser.scrollLeft() + scrollByItemCnt * scrollBy);
+    // aThumbnailsBrowser[0].scrollTo({
+    //     left: newLeft,
+    //     behavior: 'smooth'
+    //   }   );
 }
 
 function onImageNavArrowClick(aObject) {
@@ -367,6 +369,7 @@ function onImageNavArrowClick(aObject) {
         return;
     }
     shiftImage(shiftBy);
+    //enableDisableThumbnailNavArrows();
 }
 
 function onThumbnailNavArrowClick(aObject) {
@@ -375,18 +378,21 @@ function onThumbnailNavArrowClick(aObject) {
         return;
     }
 
+    const shiftByBase = 1; //0.5;
+
     let shiftBy = 0;
     if ($(aObject).hasClass(sNavArrowPreviousClass)) {
-        shiftBy = -1;
+        shiftBy = shiftByBase * -1; //-1;
     }
     else if ($(aObject).hasClass(sNavArrowNextClass)) {
-        shiftBy = 1;
+        shiftBy = shiftByBase * 1; //1;
     }
 
     if (shiftBy === 0) {
         return;
     }
     scrollThumbnails(shiftBy);
+    //enableDisableThumbnailNavArrows();
 }
 
 function onThumbnailClick(aObject) {
@@ -407,12 +413,14 @@ function onThumbnailClick(aObject) {
 $(document).ready(() => {
     // order of the init calls should be the same, but it is more efficient
     // to set the language first, we would need to reassign the main image's
-    // description (which may be language secific) twice 
+    // description (which may be language specific) twice 
     initUILanguage(sDefaultUILanguage);
     initData(loadDataMaxCount);
 
     setImageDescriptiveDataForLanguage(currentDataIndex, sDefaultUILanguage);
     $('#maxImageCount').val(loadDataMaxCount);
+
+    enableDisableThumbnailNavArrows();
 });
 
 $(aThumbnailsBrowser).on('click', '.' + sThumbnailImageClass, (event) => {
@@ -425,6 +433,19 @@ $('#imageContainer .navArrow').click((event) => {
 
 $('#thumbnailsContainer .navArrow').click((event) => {
     onThumbnailNavArrowClick(event.target);
+});
+
+// aThumbnailsBrowser[0].addEventListener(
+//     'scroll',
+//     (event) => {
+//         // handle scroll event
+//         enableDisableThumbnailNavArrows();
+//     }, 
+//     { passive: true }
+// );
+
+aThumbnailsBrowser.scroll(() => {
+    enableDisableThumbnailNavArrows();
 });
 
 $(aLanguageSelector).change((event) => {
